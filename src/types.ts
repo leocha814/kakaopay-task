@@ -58,12 +58,17 @@ interface Transfer {
   amount: number;
 }
 
+interface GetErrorResult {
+  error: string;
+}
+
 export type {
-  Bank,
   Account,
-  RecentTransferAccount,
+  Bank,
   BookmarkAccount,
+  GetErrorResult,
   Limit,
   MyInfo,
+  RecentTransferAccount,
   Transfer,
 };

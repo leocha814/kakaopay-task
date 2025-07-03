@@ -28,13 +28,6 @@ export default [
       'simple-import-sort/exports': 'error',
       'react/react-in-jsx-scope': 'off',
       'react/jsx-uses-react': 'off',
-      'padding-line-between-statements': [
-        'error',
-        { blankLine: 'always', prev: 'import', next: '*' },
-        { blankLine: 'never', prev: 'import', next: 'import' },
-        { blankLine: 'always', prev: '*', next: 'export' }
-      ],
-    
     },
   },
 ];
