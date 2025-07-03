@@ -1,8 +1,12 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { RouteObject, useRoutes } from 'react-router-dom';
 
-import { Layout } from '@/components/Layout';
+import { routeObjects } from '@/constants/routes';
+
+const RoutePage = ({ routeObjects }: { routeObjects: RouteObject[] }) => {
+  return useRoutes(routeObjects);
+};
 
 const App: React.FC = () => {
   const queryClient = new QueryClient({
@@ -24,14 +28,10 @@ const App: React.FC = () => {
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary
         fallbackRender={() => {
-          return 'Error 500';
+          return 'Error Page';
         }}
       >
-        <Routes>
-          <Route path="/" element={<Layout />} />
-          <Route path="/notFound" element={<>Not Found</>} />
-          <Route path="*" element={<Navigate to="/notFound" replace />} />
-        </Routes>
+        <RoutePage routeObjects={routeObjects} />
       </ErrorBoundary>
     </QueryClientProvider>
   );

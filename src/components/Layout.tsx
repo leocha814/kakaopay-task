@@ -1,13 +1,15 @@
 import styled from '@emotion/styled';
 
-import { useMyAccount } from '@/services/hooks';
+import BackArrow from '@/assets/icons/back-arrow.svg';
 
-const LayoutContainer = styled('div')`
+const Container = styled('div')`
   height: 100dvh;
 `;
 
 export const Layout = () => {
-  const { data: test } = useMyAccount();
-  console.log(test);
-  return <LayoutContainer>test</LayoutContainer>;
+  return (
+    <Container>
+      <img src={BackArrow}></img>
+    </Container>
+  );
 };
