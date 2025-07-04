@@ -1,4 +1,6 @@
-import axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+
+import { keysToSnakeCase } from '@/utils/utils';
 
 const baseURL = 'http://localhost:3001';
 const MAX_TIMEOUT = 60000;
@@ -11,6 +13,7 @@ const initialConfig: AxiosRequestConfig = Object.freeze({
     'Content-Type': 'application/json',
   },
 });
+
 const createApiInstance = () => {
   return axios.create({
     ...initialConfig,
@@ -19,7 +22,13 @@ const createApiInstance = () => {
 
 export const api = createApiInstance();
 
-api.interceptors.request.use(async (config: InternalAxiosRequestConfig) => {
+api.interceptors.request.use((config) => {
+  if (config.data) {
+    config.data = keysToSnakeCase(config.data);
+  }
+  if (config.params) {
+    config.params = keysToSnakeCase(config.params);
+  }
   return config;
 });
 

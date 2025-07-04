@@ -30,6 +30,10 @@ interface BookmarkAccount {
   id: number;
 }
 
+interface BookmarkAccountBody {
+  bankAccountNumber: string;
+}
+
 interface Limit {
   limit: number;
   type: string;
@@ -58,17 +62,30 @@ interface Transfer {
   amount: number;
 }
 
+interface TransferBody {
+  bankCode: string;
+  accountNumber: string;
+  amount: number;
+}
+
 interface GetErrorResult {
   error: string;
+}
+
+interface PostErrorResult {
+  error_code: string;
 }
 
 export type {
   Account,
   Bank,
   BookmarkAccount,
+  BookmarkAccountBody,
   GetErrorResult,
   Limit,
   MyInfo,
+  PostErrorResult,
   RecentTransferAccount,
   Transfer,
+  TransferBody,
 };
