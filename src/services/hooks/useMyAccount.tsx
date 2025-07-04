@@ -7,7 +7,7 @@ import { getMyAccount } from '../api';
 
 export const useMyAccount = (
   options?: Omit<
-    UseQueryOptions<Account, AxiosError<GetErrorResult>>,
+    UseQueryOptions<Account[], AxiosError<GetErrorResult>>,
     'queryKey'
   >,
 ) => {
