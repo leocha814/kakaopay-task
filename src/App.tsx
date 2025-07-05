@@ -5,6 +5,8 @@ import { RouteObject, useRoutes } from 'react-router-dom';
 
 import { routeObjects } from '@/constants/routes';
 import { theme } from '@/constants/theme';
+
+import { Content } from './components/Content';
 const RoutePage = ({ routeObjects }: { routeObjects: RouteObject[] }) => {
   return useRoutes(routeObjects);
 };
@@ -30,7 +32,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <ErrorBoundary
           fallbackRender={() => {
-            return 'Error Page';
+            return <Content>서비스 사용이 잠시 불가 합니다.</Content>;
           }}
         >
           <RoutePage routeObjects={routeObjects} />
