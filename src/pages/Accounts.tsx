@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 import { AccountList } from '@/components/AccountList';
-import { BookmarkIconProps } from '@/components/BookmarkIcon';
+import { BookmarkButtonProps } from '@/components/BookmarkButton';
 import { Header } from '@/components/Header';
 import {
   useAddBookmarkAccount,
@@ -42,7 +42,7 @@ const Accounts = () => {
     isBookmarked,
     id,
     accountNumber = '',
-  }: Omit<BookmarkIconProps, 'onToggle'>) => {
+  }: Omit<BookmarkButtonProps, 'onToggle'>) => {
     if (isBookmarked) {
       deleteBookmark(String(id));
     } else {

@@ -30,7 +30,7 @@ export const Header = ({ useHistoryBack = true, title = '' }: HeaderProps) => {
           if (useHistoryBack) history.back();
         }}
       ></BackButton>
-      <Title>{title}</Title>
+      {title && <Title>{title}</Title>}
     </HeaderContainer>
   );
 };

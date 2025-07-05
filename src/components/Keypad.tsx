@@ -21,6 +21,7 @@ const KeyButton = styled(Button)`
   font-size: 26px;
   border-radius: 0;
   background: white;
+  touch-action: none;
   transition: background 0.2s;
   &:active {
     background: #f1f3f5;

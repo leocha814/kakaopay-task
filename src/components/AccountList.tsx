@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import arrow from '@/assets/icons/arrow.svg';
-import { BookmarkIcon, BookmarkIconProps } from '@/components/BookmarkIcon';
+import {
+  BookmarkButton,
+  BookmarkButtonProps,
+} from '@/components/BookmarkButton';
 import { Box } from '@/components/Box';
 import { Typography } from '@/components/Typography';
 
@@ -13,9 +16,11 @@ const BankLogo = styled('img')`
   pointer-events: none;
 `;
 
-const Image = styled('img')`
+const ExpandedButton = styled('button')`
   width: 24px;
   height: 24px;
+  background: url(${arrow}) no-repeat center center;
+  border: none;
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: ${({ expanded = false }: { expanded?: boolean }) =>
     expanded && 'rotate(180deg)'};
@@ -56,7 +61,7 @@ interface AccountProps {
   bankName: string;
   accountNumber: string;
   id: number;
-  bookmarkInfo: BookmarkIconProps;
+  bookmarkInfo: BookmarkButtonProps;
   bankCode: string;
 }
 
@@ -90,7 +95,7 @@ const Account = ({
           </Typography>
         </Box>
       </ListLink>
-      <BookmarkIcon {...bookmarkInfo}></BookmarkIcon>
+      <BookmarkButton {...bookmarkInfo}></BookmarkButton>
     </AccountContainer>
   );
 };
@@ -118,12 +123,13 @@ export const AccountList = ({
         {useExpand && (
           <Box justifyContent="end">
             {isExpanded ? `${totalCount}개` : `+${hiddenCount}개`}
-            <Image
-              expanded={!isExpanded}
-              alt={isExpanded ? '숨기기' : '보이기'}
-              onClick={() => setIsExpanded((prev) => !prev)}
-              src={arrow}
-            ></Image>
+            {totalCount > 2 && (
+              <ExpandedButton
+                expanded={!isExpanded}
+                aria-label={isExpanded ? '숨기기' : '보이기'}
+                onClick={() => setIsExpanded((prev) => !prev)}
+              ></ExpandedButton>
+            )}
           </Box>
         )}
       </Box>

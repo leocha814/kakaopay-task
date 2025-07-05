@@ -149,7 +149,8 @@ const Transfer = () => {
     return (
       <TransferPending
         amount={amount}
-        {...{ imageUrl, bankName, accountNumber, holderName, bankCode }}
+        holderName={holderName ? holderName : '나에게'}
+        {...{ imageUrl, bankName, accountNumber, bankCode }}
       ></TransferPending>
     );
   if (isSuccess)
