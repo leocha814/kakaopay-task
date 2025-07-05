@@ -33,9 +33,22 @@ const MyAccount = () => {
 
   const bankList = myAccount?.map((account) => account.bank);
 
-  const handleAccountClick = (accountNumber: string) => {
-    navigate('/send-money', { state: { accountNumber } });
+  const handleAccountClick = ({
+    accountNumber,
+    bankName,
+    holderName,
+    urlImage,
+  }: {
+    accountNumber: string;
+    bankName: string;
+    holderName: string;
+    urlImage: string;
+  }) => {
+    navigate('/send-money', {
+      state: { accountNumber, bankName, urlImage, holderName },
+    });
   };
+
   const handleToggle = ({
     isBookmarked,
     id,
@@ -55,7 +68,7 @@ const MyAccount = () => {
         <AccountList
           title="내 계좌"
           accountList={
-            myAccount?.map(({ bank, account_number, id }) => {
+            myAccount?.map(({ bank, account_number, holder_name, id }) => {
               const bookmark = bookmarkAccounts?.find(
                 ({ bank_account_number }) =>
                   bank_account_number === account_number,
@@ -73,7 +86,13 @@ const MyAccount = () => {
                   accountNumber:
                     bookmark?.bank_account_number ?? account_number,
                 },
-                handleAccountClick: () => handleAccountClick(account_number),
+                handleAccountClick: () =>
+                  handleAccountClick({
+                    urlImage: bank.image_url,
+                    bankName: bank.name,
+                    accountNumber: account_number,
+                    holderName: holder_name,
+                  }),
               };
             }) || []
           }
@@ -88,6 +107,7 @@ const MyAccount = () => {
                   ({ bank_account_number }) =>
                     bank_account_number === account_number,
                 );
+                const bankInfo = bankList?.find((b) => b.code === bank.code);
                 return {
                   imageUrl: bank.image_url,
                   holderName: holder_name,
@@ -100,9 +120,14 @@ const MyAccount = () => {
                     accountNumber:
                       bookmark?.bank_account_number ?? account_number,
                   },
-                  bankName:
-                    bankList?.find((b) => b.code === bank.code)?.name || '',
-                  handleAccountClick: () => handleAccountClick(account_number),
+                  bankName: bankInfo?.name || '',
+                  handleAccountClick: () =>
+                    handleAccountClick({
+                      urlImage: bank.image_url,
+                      holderName: holder_name,
+                      accountNumber: account_number,
+                      bankName: bankInfo?.name || '',
+                    }),
                 };
               },
             ) || []
