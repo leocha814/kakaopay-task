@@ -5,11 +5,13 @@ declare module '@emotion/react' {
     color: {
       primary: string;
       secondary: string;
-      accent: string;
-      background: string;
+      placeholder: string;
+      kakao: string;
+      kakaoSecondary: string;
       error: string;
       labelPrimary: string;
       labelSecondary: string;
+      labelTertiary: string;
     };
     fontSize: {
       normal: string;
