@@ -8,4 +8,8 @@ export interface ContentProps {
 export const Content = styled('div')<ContentProps>`
   margin-top: ${({ marginTop = '16%' }) => marginTop};
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
 `;

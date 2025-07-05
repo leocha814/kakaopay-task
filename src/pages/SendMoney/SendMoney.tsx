@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { useCallback, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Box } from '@/components/Box';
 import { Button } from '@/components/Button';
@@ -11,6 +11,10 @@ import { Tooltip } from '@/components/Tooltip';
 import { Typography } from '@/components/Typography';
 import { useMyInfo, useTransfer } from '@/services/hooks';
 import { formatNumberWithCommas } from '@/utils/utils';
+
+import { SendError } from './components/SendError';
+import { SendPending } from './components/SendPending';
+import { SendSuccess } from './components/SendSuccess';
 
 const ONE_DAY_LIMIT = 5000000;
 const ONE_TIME_LIMIT = 2000000;
@@ -27,6 +31,7 @@ const AccountInfo = styled(Content)`
   align-items: center;
   gap: 16px;
 `;
+
 const KeypadContainer = styled('div')`
   display: flex;
   flex-direction: column;
@@ -42,23 +47,54 @@ const SendMoney = () => {
     state: { urlImage, bankName, accountNumber, holderName, bankCode },
   } = useLocation();
   const [amount, setAmount] = useState('');
+  const [errorMessage, setErrorMesssage] = useState('');
+  const navigate = useNavigate();
 
   const { data: myInfo } = useMyInfo();
-  const { mutate: transfer, isPending, isSuccess, isError } = useTransfer();
+  const {
+    mutate: transfer,
+    isPending,
+    isSuccess,
+    isError,
+  } = useTransfer({
+    onSuccess: (res) => {
+      setAmount(String(res.amount));
+    },
+    onError: (res) => {
+      setErrorMesssage(res?.response?.data.error_code || 'UNKNOWN');
+    },
+  });
 
   const myAccountNumber =
     myInfo?.account?.account_number?.replaceAll('-', '').slice(-4) || '';
 
-  const oneDayAmount = myInfo?.transfer?.one_day_amount || '';
+  const oneDayLimitAmount = useMemo(
+    () => ONE_DAY_LIMIT - Number(myInfo?.transfer?.one_day_amount || ''),
+    [myInfo?.transfer?.one_day_amount],
+  );
 
   const overOneDayLimit = useMemo(
-    () => Number(amount) > ONE_DAY_LIMIT - Number(oneDayAmount),
-    [oneDayAmount, amount],
+    () => Number(amount) > oneDayLimitAmount,
+    [oneDayLimitAmount, amount],
   );
   const overOneTimeLimit = useMemo(
     () => Number(amount) > ONE_TIME_LIMIT,
     [amount],
   );
+
+  const content = useMemo(() => {
+    if (
+      overOneDayLimit &&
+      overOneTimeLimit &&
+      oneDayLimitAmount < ONE_TIME_LIMIT
+    ) {
+      return `${formatNumberWithCommas(String(oneDayLimitAmount))}원 송금 가능 (1일 한도 초과)`;
+    } else if (overOneDayLimit) {
+      return `${formatNumberWithCommas(String(oneDayLimitAmount))}원 송금 가능 (1일 한도 초과)`;
+    } else if (overOneTimeLimit) {
+      return `${formatNumberWithCommas(String(ONE_TIME_LIMIT))}원 송금 가능 (1회 한도 초과)`;
+    }
+  }, [overOneDayLimit, overOneTimeLimit, oneDayLimitAmount]);
 
   const handleKeyPress = useCallback(
     (value: string) => {
@@ -91,9 +127,41 @@ const SendMoney = () => {
     });
   }, [bankCode, accountNumber, amount]);
 
-  if (isPending) return '전송중';
-  if (isSuccess) return '완료';
-  if (isError) return '앗 에러';
+  const handleSuccessConfirmButton = () => {
+    navigate('/receive-account-select', {
+      state: {},
+    });
+  };
+
+  const handleErrorConfirmButton = () => {
+    navigate('/receive-account-select', {
+      state: {},
+    });
+  };
+
+  if (isPending)
+    return (
+      <SendPending
+        amount={amount}
+        {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
+      ></SendPending>
+    );
+  if (isSuccess)
+    return (
+      <SendSuccess
+        onClickConfirmButton={handleSuccessConfirmButton}
+        amount={amount}
+        myAccountInfo={myInfo?.account}
+        {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
+      ></SendSuccess>
+    );
+  if (isError)
+    return (
+      <SendError
+        onClickConfirmButton={handleErrorConfirmButton}
+        error_code={errorMessage}
+      ></SendError>
+    );
 
   return (
     <>
@@ -116,11 +184,7 @@ const SendMoney = () => {
           <Tooltip
             show={overOneDayLimit || overOneTimeLimit}
             backgroundColor="error"
-            content={
-              overOneTimeLimit
-                ? `${formatNumberWithCommas(String(ONE_TIME_LIMIT))}원 송금 가능 (1회 한도 초과)`
-                : `${formatNumberWithCommas(String(ONE_DAY_LIMIT - Number(oneDayAmount)))}원 송금 가능 (1일 한도 초과)`
-            }
+            content={content}
           >
             <Typography
               color={overOneDayLimit || overOneTimeLimit ? 'error' : 'primary'}

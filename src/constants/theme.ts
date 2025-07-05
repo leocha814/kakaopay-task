@@ -6,6 +6,7 @@ export const theme = {
     kakao: '#FFEB00',
     kakaoSecondary: '#FFF9BF',
     error: '#FF3C3C',
+    errorSecondary: '#FFD8D8',
     labelPrimary: '#060B11',
     labelSecondary: '#060B118F',
     labelTertiary: '#060B1129',

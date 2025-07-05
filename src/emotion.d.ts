@@ -9,6 +9,7 @@ declare module '@emotion/react' {
       kakao: string;
       kakaoSecondary: string;
       error: string;
+      errorSecondary: string;
       labelPrimary: string;
       labelSecondary: string;
       labelTertiary: string;
