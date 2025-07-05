@@ -13,7 +13,7 @@ import {
   useRecentTransferAccounts,
 } from '@/services/hooks';
 
-const MyAccount = () => {
+const ReceiveAccountSelect = () => {
   const navigate = useNavigate();
   const { data: bookmarkAccounts, refetch: refetchBookmarker } =
     useBookmarkAccounts();
@@ -63,7 +63,7 @@ const MyAccount = () => {
 
   return (
     <Content marginTop={'44px'}>
-      <Header title="받을 계좌 선택"></Header>
+      <Header title="받을 계좌 선택" useHistoryBack={false}></Header>
       <Box flexDirection="column" gap={'16px'}>
         <AccountList
           title="내 계좌"
@@ -138,4 +138,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default ReceiveAccountSelect;

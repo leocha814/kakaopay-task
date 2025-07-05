@@ -21,14 +21,15 @@ const Title = styled(Typography)`
 `;
 export interface HeaderProps {
   title?: string;
+  useHistoryBack?: boolean;
 }
 
-export const Header = ({ title = '' }: HeaderProps) => {
+export const Header = ({ useHistoryBack = true, title = '' }: HeaderProps) => {
   return (
     <HeaderContainer>
       <BackButton
         onClick={() => {
-          history.back();
+          if (useHistoryBack) history.back();
         }}
       ></BackButton>
       <Title>{title}</Title>
