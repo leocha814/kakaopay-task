@@ -2,8 +2,8 @@ import userEvent from '@testing-library/user-event';
 
 import * as hooks from '@/services/hooks';
 
-import { render, screen } from '../../test-utils';
-import Transfer from './Transfer';
+import Transfer from '../pages/transfer/Transfer';
+import { render, screen } from '../test-utils';
 
 jest.mock('@/services/hooks', () => ({
   useMyInfo: jest.fn(),

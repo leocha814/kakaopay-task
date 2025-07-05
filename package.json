@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "mock": "json-server --watch ./mock/db.json --port 3001 --middlewares ./mock/middleware.js"
+    "mock": "json-server --watch ./mock/db.json --port 3001 --middlewares ./mock/middleware.js",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

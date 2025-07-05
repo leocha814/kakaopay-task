@@ -1,11 +1,11 @@
 import userEvent from '@testing-library/user-event';
 import { HTMLAttributes } from 'react';
 
+import { AccountList, AccountListProps } from '../components/AccountList';
 import { render, screen } from '../test-utils';
-import { AccountList, AccountListProps } from './AccountList';
 
-jest.mock('@/components/BookmarkIcon', () => ({
-  BookmarkIcon: () => <span data-testid="bookmark-icon" />,
+jest.mock('@/components/BookmarkButton', () => ({
+  BookmarkButton: () => <span data-testid="bookmark-button" />,
 }));
 jest.mock('@/components/Box', () => ({
   Box: ({ children }: HTMLAttributes<HTMLDivElement>) => <div>{children}</div>,
@@ -102,12 +102,12 @@ describe('AccountList', () => {
 
     expect(screen.getByText('+3개')).toBeInTheDocument();
 
-    expect(screen.getByAltText('보이기')).toBeInTheDocument();
+    expect(screen.getByLabelText('보이기')).toBeInTheDocument();
   });
 
   it('펼치기 버튼 클릭 시 모든 계좌가 보인다', async () => {
     render(<AccountList title="내 계좌" accountList={accounts} />);
-    const toggleBtn = screen.getByAltText('보이기');
+    const toggleBtn = screen.getByLabelText('보이기');
     await userEvent.click(toggleBtn);
     expect(screen.getByText('별명1')).toBeInTheDocument();
     expect(screen.getByText('별명2')).toBeInTheDocument();
@@ -115,18 +115,18 @@ describe('AccountList', () => {
     expect(screen.getByText('별명4')).toBeInTheDocument();
     expect(screen.getByText('별명5')).toBeInTheDocument();
 
-    expect(screen.getByAltText('숨기기')).toBeInTheDocument();
+    expect(screen.getByLabelText('숨기기')).toBeInTheDocument();
   });
 
   it('접기 버튼 클릭 시 다시 2개만 보인다', async () => {
     render(<AccountList title="내 계좌" accountList={accounts} />);
-    const toggleBtn = screen.getByAltText('보이기');
+    const toggleBtn = screen.getByLabelText('보이기');
     await userEvent.click(toggleBtn);
-    const foldBtn = screen.getByAltText('숨기기');
+    const foldBtn = screen.getByLabelText('숨기기');
     await userEvent.click(foldBtn);
     expect(screen.queryByText('별명3')).not.toBeInTheDocument();
     expect(screen.getByText('+3개')).toBeInTheDocument();
-    expect(screen.getByAltText('보이기')).toBeInTheDocument();
+    expect(screen.getByLabelText('보이기')).toBeInTheDocument();
   });
 
   it('계좌가 없으면 목록이 비어 있다', () => {
