@@ -9,6 +9,7 @@ import { Typography } from '@/components/Typography';
 const BankLogo = styled('img')`
   width: 36px;
   height: 36px;
+  pointer-events: none;
 `;
 
 const Image = styled('img')`

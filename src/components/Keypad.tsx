@@ -11,12 +11,15 @@ const KeyButtonContainer = styled('div')`
   justify-content: center;
   align-items: center;
   flex: 1;
+  grid-gap: 16px;
 `;
 
-const KeyButton = styled('button')`
+const KeyButton = styled(Button)`
   height: 100%;
   border: none;
+  color: 'primary';
   font-size: 26px;
+  border-radius: 0;
   background: white;
   transition: background 0.2s;
   &:active {

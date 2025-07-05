@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 
 import { keysToSnakeCase } from '@/utils/utils';
 
-const baseURL = 'http://localhost:3001';
+const baseURL = location.origin;
 const MAX_TIMEOUT = 60000;
 
 const initialConfig: AxiosRequestConfig = Object.freeze({
