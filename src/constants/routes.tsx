@@ -1,17 +1,17 @@
 import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
-const ReceiveAccountSelect = lazy(() => import('@/pages/ReceiveAccountSelect'));
-const SendMoney = lazy(() => import('@/pages/SendMoney/SendMoney'));
+const Accounts = lazy(() => import('@/pages/Accounts'));
+const Transfer = lazy(() => import('@/pages/transfer/Transfer'));
 
 export const routeObjects: RouteObject[] = [
   {
-    path: '/receive-account-select',
-    element: <ReceiveAccountSelect />,
+    path: '/accounts',
+    element: <Accounts />,
   },
   {
-    path: '/send-money',
-    element: <SendMoney />,
+    path: '/transfer',
+    element: <Transfer />,
   },
 
   {
@@ -20,7 +20,7 @@ export const routeObjects: RouteObject[] = [
   },
   {
     path: '/',
-    element: <Navigate to="/receive-account-select" replace />,
+    element: <Navigate to="/accounts" replace />,
   },
   {
     path: '*',

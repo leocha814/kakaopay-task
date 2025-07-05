@@ -21,11 +21,14 @@ const Image = styled('img')`
   }
 `;
 
-interface SendPendingProps extends CurrentState {
+interface TransferPendingProps extends CurrentState {
   amount: string;
 }
 
-export const SendPending = ({ holderName, amount }: SendPendingProps) => {
+export const TransferPending = ({
+  holderName,
+  amount,
+}: TransferPendingProps) => {
   return (
     <Content>
       <Image src={Loading}></Image>

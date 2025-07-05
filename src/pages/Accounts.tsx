@@ -14,7 +14,7 @@ import {
 } from '@/services/hooks';
 import { CurrentState } from '@/types';
 
-const ReceiveAccountSelect = () => {
+const Accounts = () => {
   const navigate = useNavigate();
   const { data: bookmarkAccounts, refetch: refetchBookmarker } =
     useBookmarkAccounts();
@@ -35,7 +35,7 @@ const ReceiveAccountSelect = () => {
   const bankList = myAccount?.map((account) => account.bank);
 
   const handleAccountClick = (params: CurrentState) => {
-    navigate('/send-money', {
+    navigate('/transfer', {
       state: params,
     });
   };
@@ -131,4 +131,4 @@ const ReceiveAccountSelect = () => {
   );
 };
 
-export default ReceiveAccountSelect;
+export default Accounts;

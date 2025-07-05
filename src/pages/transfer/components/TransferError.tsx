@@ -22,14 +22,14 @@ const BottomContainer = styled('div')`
   bottom: 0;
 `;
 
-interface SendErrorProps extends PostErrorResult {
+interface TransferErrorProps extends PostErrorResult {
   onClickConfirmButton: VoidFunction;
 }
 
-export const SendError = ({
+export const TransferError = ({
   error_code,
   onClickConfirmButton,
-}: SendErrorProps) => {
+}: TransferErrorProps) => {
   const errorTitle =
     error_code === 'ERROR_FAILED_TO_CONFIRM_TRANSFER'
       ? '송금 결과를 확인하지 못했어요.'

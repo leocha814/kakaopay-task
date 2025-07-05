@@ -39,20 +39,20 @@ const OutAccountBox = styled('div')`
   }
 `;
 
-interface SendSuccessProps extends CurrentState {
+interface TransferSuccessProps extends CurrentState {
   amount: string;
   myAccountInfo?: MyInfo['account'];
   onClickConfirmButton: VoidFunction;
 }
 
-export const SendSuccess = ({
+export const TransferSuccess = ({
   bankName,
   accountNumber,
   myAccountInfo,
   holderName,
   amount,
   onClickConfirmButton,
-}: SendSuccessProps) => {
+}: TransferSuccessProps) => {
   return (
     <>
       <Content>

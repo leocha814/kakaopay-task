@@ -12,9 +12,9 @@ import { Typography } from '@/components/Typography';
 import { useMyInfo, useTransfer } from '@/services/hooks';
 import { formatNumberWithCommas } from '@/utils/utils';
 
-import { SendError } from './components/SendError';
-import { SendPending } from './components/SendPending';
-import { SendSuccess } from './components/SendSuccess';
+import { TransferError } from './components/TransferError';
+import { TransferPending } from './components/TransferPending';
+import { TransferSuccess } from './components/TransferSuccess';
 
 const ONE_DAY_LIMIT = 5000000;
 const ONE_TIME_LIMIT = 2000000;
@@ -42,7 +42,7 @@ const KeypadContainer = styled('div')`
   bottom: 0;
 `;
 
-const SendMoney = () => {
+const Transfer = () => {
   const {
     state: { urlImage, bankName, accountNumber, holderName, bankCode },
   } = useLocation();
@@ -128,39 +128,39 @@ const SendMoney = () => {
   }, [bankCode, accountNumber, amount]);
 
   const handleSuccessConfirmButton = () => {
-    navigate('/receive-account-select', {
+    navigate('/accounts', {
       state: {},
     });
   };
 
   const handleErrorConfirmButton = () => {
-    navigate('/receive-account-select', {
+    navigate('/accounts', {
       state: {},
     });
   };
 
   if (isPending)
     return (
-      <SendPending
+      <TransferPending
         amount={amount}
         {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
-      ></SendPending>
+      ></TransferPending>
     );
   if (isSuccess)
     return (
-      <SendSuccess
+      <TransferSuccess
         onClickConfirmButton={handleSuccessConfirmButton}
         amount={amount}
         myAccountInfo={myInfo?.account}
         {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
-      ></SendSuccess>
+      ></TransferSuccess>
     );
   if (isError)
     return (
-      <SendError
+      <TransferError
         onClickConfirmButton={handleErrorConfirmButton}
         error_code={errorMessage}
-      ></SendError>
+      ></TransferError>
     );
 
   return (
@@ -230,4 +230,4 @@ const SendMoney = () => {
   );
 };
 
-export default SendMoney;
+export default Transfer;
