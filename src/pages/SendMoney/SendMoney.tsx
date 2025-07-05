@@ -41,7 +41,7 @@ const SendMoney = () => {
   const [amount, setAmount] = useState('');
 
   const { data: myInfo } = useMyInfo();
-  const { mutate: transfer } = useTransfer();
+  const { mutate: transfer, isPending, isSuccess, isError } = useTransfer();
 
   const myAccountNumber =
     myInfo?.account?.account_number?.replaceAll('-', '').slice(-4) || '';
@@ -83,6 +83,9 @@ const SendMoney = () => {
       amount: Number(amount),
     });
   }, [bankCode, accountNumber, amount]);
+  if (isPending) return '전송중';
+  if (isSuccess) return '완료';
+  if (isError) return '앗 에러';
   return (
     <>
       <Header></Header>

@@ -146,8 +146,8 @@
     }
   },
   "transfer": {
-    "bank_code": "004",
-    "account_number": "143-5678-9012",
-    "amount": 1000
+    "bank_code": "088",
+    "account_number": "110-1234-5678",
+    "amount": 10
   }
 }

@@ -2,7 +2,7 @@ import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
 const ReceiveAccountSelect = lazy(() => import('@/pages/ReceiveAccountSelect'));
-const SendMoney = lazy(() => import('@/pages/SendMoney'));
+const SendMoney = lazy(() => import('@/pages/SendMoney/SendMoney'));
 
 export const routeObjects: RouteObject[] = [
   {
@@ -13,9 +13,14 @@ export const routeObjects: RouteObject[] = [
     path: '/send-money',
     element: <SendMoney />,
   },
+
   {
     path: '/not-found',
     element: <div>not-found</div>,
+  },
+  {
+    path: '/',
+    element: <Navigate to="/receive-account-select" replace />,
   },
   {
     path: '*',
