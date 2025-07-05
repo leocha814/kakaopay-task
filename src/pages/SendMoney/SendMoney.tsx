@@ -12,9 +12,13 @@ import { Typography } from '@/components/Typography';
 import { useMyInfo, useTransfer } from '@/services/hooks';
 import { formatNumberWithCommas } from '@/utils/utils';
 
+const ONE_DAY_LIMIT = 5000000;
+const ONE_TIME_LIMIT = 2000000;
+
 const Image = styled('img')`
   width: 40px;
   height: 40px;
+  pointer-events: none;
 `;
 
 const AccountInfo = styled(Content)`
@@ -27,9 +31,8 @@ const KeypadContainer = styled('div')`
   display: flex;
   flex-direction: column;
   position: fixed;
-  height: 50dvh;
   padding-bottom: 50px;
-  gap: 8px;
+  gap: 16px;
   width: 100dvw;
   bottom: 0;
 `;
@@ -48,28 +51,32 @@ const SendMoney = () => {
 
   const oneDayAmount = myInfo?.transfer?.one_day_amount || '';
 
-  const overOneDayAmount = useMemo(
-    () => Number(myInfo?.transfer?.one_day_amount || 0) < Number(amount),
-    [myInfo, amount],
+  const overOneDayLimit = useMemo(
+    () => Number(amount) > ONE_DAY_LIMIT - Number(oneDayAmount),
+    [oneDayAmount, amount],
+  );
+  const overOneTimeLimit = useMemo(
+    () => Number(amount) > ONE_TIME_LIMIT,
+    [amount],
   );
 
   const handleKeyPress = useCallback(
     (value: string) => {
-      if (overOneDayAmount) return;
+      if (overOneDayLimit || overOneTimeLimit) return;
       setAmount((prev) => {
         if (Number(prev) + Number(value) === 0) return '';
         return prev + value;
       });
     },
-    [overOneDayAmount],
+    [overOneDayLimit || overOneTimeLimit],
   );
 
   const handleAmountChip = useCallback(
     (value: number) => {
-      if (overOneDayAmount) return;
+      if (overOneDayLimit || overOneTimeLimit) return;
       setAmount((prev) => String(Number(prev) + value));
     },
-    [overOneDayAmount],
+    [overOneDayLimit || overOneTimeLimit],
   );
 
   const handleBackspace = () => {
@@ -83,9 +90,11 @@ const SendMoney = () => {
       amount: Number(amount),
     });
   }, [bankCode, accountNumber, amount]);
+
   if (isPending) return '전송중';
   if (isSuccess) return '완료';
   if (isError) return '앗 에러';
+
   return (
     <>
       <Header></Header>
@@ -105,12 +114,16 @@ const SendMoney = () => {
             {holderName} 님에게
           </Typography>
           <Tooltip
-            show={overOneDayAmount}
+            show={overOneDayLimit || overOneTimeLimit}
             backgroundColor="error"
-            content={`${formatNumberWithCommas(String(oneDayAmount))}원 송금 가능 (1일 한도 초과)`}
+            content={
+              overOneTimeLimit
+                ? `${formatNumberWithCommas(String(ONE_TIME_LIMIT))}원 송금 가능 (1회 한도 초과)`
+                : `${formatNumberWithCommas(String(ONE_DAY_LIMIT - Number(oneDayAmount)))}원 송금 가능 (1일 한도 초과)`
+            }
           >
             <Typography
-              color={overOneDayAmount ? 'error' : 'primary'}
+              color={overOneDayLimit || overOneTimeLimit ? 'error' : 'primary'}
               textAlign="center"
               fontSize={'26px'}
               opacity={amount ? 1 : 0.16}
@@ -139,9 +152,11 @@ const SendMoney = () => {
         <Button
           onClick={handleConfirmButton}
           height="60px"
-          disabled={overOneDayAmount || !amount}
+          disabled={overOneDayLimit || overOneTimeLimit || !amount}
           backgroundColor={
-            overOneDayAmount || !amount ? 'kakaoSecondary' : 'kakao'
+            overOneDayLimit || overOneTimeLimit || !amount
+              ? 'kakaoSecondary'
+              : 'kakao'
           }
         >
           확인
