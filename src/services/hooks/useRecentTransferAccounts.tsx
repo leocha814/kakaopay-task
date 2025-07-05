@@ -7,7 +7,7 @@ import { getRecentTransferAccounts } from '../api';
 
 export const useRecentTransferAccounts = (
   options?: Omit<
-    UseQueryOptions<RecentTransferAccount, AxiosError<GetErrorResult>>,
+    UseQueryOptions<RecentTransferAccount[], AxiosError<GetErrorResult>>,
     'queryKey'
   >,
 ) => {

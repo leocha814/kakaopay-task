@@ -7,7 +7,7 @@ import { getBookmarkAccounts } from '../api';
 
 export const useBookmarkAccounts = (
   options?: Omit<
-    UseQueryOptions<BookmarkAccount, AxiosError<GetErrorResult>>,
+    UseQueryOptions<BookmarkAccount[], AxiosError<GetErrorResult>>,
     'queryKey'
   >,
 ) => {

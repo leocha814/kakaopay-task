@@ -24,7 +24,9 @@ export async function getMyAccountItem(id: string): Promise<Account> {
   return data;
 }
 
-export async function getRecentTransferAccounts(): Promise<RecentTransferAccount> {
+export async function getRecentTransferAccounts(): Promise<
+  RecentTransferAccount[]
+> {
   const { data } = await api({
     url: '/recents_transfer_accounts',
     method: 'get',
@@ -42,7 +44,7 @@ export async function getRecentTransferAccountItem(
   return data;
 }
 
-export async function getBookmarkAccounts(): Promise<BookmarkAccount> {
+export async function getBookmarkAccounts(): Promise<BookmarkAccount[]> {
   const { data } = await api({
     url: '/bookmark_accounts',
     method: 'get',
