@@ -1,12 +1,14 @@
 export const theme = {
   color: {
-    primary: '#222',
+    primary: '#060B11',
     secondary: '#888',
-    accent: '#ffcc00',
-    background: '#fff',
-    error: '#ff4444',
-    labelPrimary: '#222',
-    labelSecondary: '#888',
+    placeholder: '#060B118F',
+    kakao: '#FFEB00',
+    kakaoSecondary: 'FFF9BF',
+    error: '#FF3C3C',
+    labelPrimary: '#060B11',
+    labelSecondary: '#060B118F',
+    labelTertiary: '#060B1129',
   },
   fontSize: {
     normal: '16px',
