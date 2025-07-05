@@ -36,7 +36,7 @@ interface AccountProps {
   accountNumber: string;
   id: number;
   bookmarkInfo: BookmarkIconProps;
-  handleAccountClick?: () => void;
+  handleAccountClick?: VoidFunction;
 }
 
 const Account = ({

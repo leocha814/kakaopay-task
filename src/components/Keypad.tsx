@@ -1,0 +1,79 @@
+import styled from '@emotion/styled';
+
+import { Box } from '@/components/Box';
+import { Chip } from '@/components/Chip';
+
+const KeypadContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  height: 50dvh;
+  padding-bottom: 50px;
+  gap: 8px;
+  position: fixed;
+  width: 100dvw;
+  bottom: 0;
+`;
+
+const KeyButtonContainer = styled('div')`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+
+const KeyButton = styled('button')`
+  height: 100%;
+  border: none;
+  font-size: 26px;
+  background: white;
+  transition: background 0.2s;
+  &:active {
+    background: #f1f3f5;
+  }
+`;
+const ConfirmButton = styled('button')`
+  border-radius: 30px;
+  height: 60px;
+  background-color: #ffeb00;
+  border: unset;
+  margin: 0 16px;
+`;
+
+interface KeypadProps {
+  onKeyPress: (value: string) => void;
+  onClickChip: (value: number) => void;
+  backspaceProps: React.HTMLAttributes<HTMLButtonElement>;
+}
+
+export const Keypad = ({
+  onKeyPress,
+  onClickChip,
+  backspaceProps,
+}: KeypadProps) => {
+  const keys = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+  return (
+    <KeypadContainer>
+      <Box justifyContent="space-evenly">
+        {[1, 5, 10, 200].map((value) => (
+          <Chip key={value} onClick={() => onClickChip(value * 10000)}>
+            +{value}만
+          </Chip>
+        ))}
+      </Box>
+      <KeyButtonContainer>
+        {keys.map((key) => (
+          <KeyButton key={key} onClick={() => onKeyPress(key)}>
+            {key}
+          </KeyButton>
+        ))}
+        <div></div>
+        <KeyButton onClick={() => onKeyPress('0')}>0</KeyButton>
+        <KeyButton {...backspaceProps}>←</KeyButton>
+      </KeyButtonContainer>
+      <ConfirmButton>확인</ConfirmButton>
+    </KeypadContainer>
+  );
+};

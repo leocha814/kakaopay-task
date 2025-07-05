@@ -21,12 +21,16 @@ export const keysToSnakeCase = <T,>(obj: T): T => {
 export type ThemeKeys<TCategory extends keyof typeof theme> =
   keyof (typeof theme)[TCategory];
 
-export function getThemeValue<TCategory extends keyof typeof theme>(
+export const getThemeValue = <TCategory extends keyof typeof theme>(
   categoryObj: (typeof theme)[TCategory],
   value: ThemeKeys<TCategory> | string | number,
-): string | number {
+): string | number => {
   if (Object.prototype.hasOwnProperty.call(categoryObj, value)) {
     return categoryObj[value as ThemeKeys<TCategory>] as string | number;
   }
   return value as string | number;
-}
+};
+
+export const formatNumberWithCommas = (numberStr: string): string => {
+  return numberStr.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};

@@ -13,7 +13,8 @@ export const useMyInfo = (
 ) => {
   return useQuery({
     queryFn: getMyInfo,
-    queryKey: ['bookmark-accounts'],
+    queryKey: ['my-info'],
+    staleTime: 0,
     throwOnError: true,
     ...options,
   });
