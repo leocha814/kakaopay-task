@@ -33,19 +33,15 @@ const ReceiveAccountSelect = () => {
 
   const bankList = myAccount?.map((account) => account.bank);
 
-  const handleAccountClick = ({
-    accountNumber,
-    bankName,
-    holderName,
-    urlImage,
-  }: {
+  const handleAccountClick = (params: {
     accountNumber: string;
     bankName: string;
     holderName: string;
     urlImage: string;
+    bankCode: string;
   }) => {
     navigate('/send-money', {
-      state: { accountNumber, bankName, urlImage, holderName },
+      state: params,
     });
   };
 
@@ -92,6 +88,7 @@ const ReceiveAccountSelect = () => {
                     bankName: bank.name,
                     accountNumber: account_number,
                     holderName: holder_name,
+                    bankCode: bank.code,
                   }),
               };
             }) || []
@@ -123,10 +120,11 @@ const ReceiveAccountSelect = () => {
                   bankName: bankInfo?.name || '',
                   handleAccountClick: () =>
                     handleAccountClick({
-                      urlImage: bank.image_url,
+                      urlImage: bankInfo?.image_url || '',
                       holderName: holder_name,
                       accountNumber: account_number,
                       bankName: bankInfo?.name || '',
+                      bankCode: bankInfo?.code || '',
                     }),
                 };
               },

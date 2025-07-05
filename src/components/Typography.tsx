@@ -19,8 +19,8 @@ export const Typography = styled('span')<TypographyProps>`
   font-weight: ${({ fontWeight = 'regular', theme }) =>
     getThemeValue(theme.fontWeight, fontWeight)};
   color: ${({ color = 'primary', theme }) => getThemeValue(theme.color, color)};
-  text-align: ${({ textAlign }) => (textAlign ? textAlign : 'left')};
-  width: ${({ width }) => (width ? width : '100%')};
-  white-space: ${({ whiteSpace }) => (whiteSpace ? whiteSpace : 'no-rwap')};
-  opacity: ${({ opacity }) => opacity && opacity};
+  text-align: ${({ textAlign = 'left' }) => textAlign};
+  width: ${({ width = '100%' }) => width};
+  white-space: ${({ whiteSpace = 'nowrap' }) => whiteSpace};
+  opacity: ${({ opacity = 1 }) => opacity};
 `;

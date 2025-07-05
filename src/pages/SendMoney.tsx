@@ -1,14 +1,15 @@
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Box } from '@/components/Box';
+import { Button } from '@/components/Button';
 import { Content } from '@/components/Content';
 import { Header } from '@/components/Header';
 import { Keypad } from '@/components/Keypad';
 import { Tooltip } from '@/components/Tooltip';
 import { Typography } from '@/components/Typography';
-import { useMyInfo } from '@/services/hooks';
+import { useMyInfo, useTransfer } from '@/services/hooks';
 import { formatNumberWithCommas } from '@/utils/utils';
 
 const Image = styled('img')`
@@ -22,14 +23,25 @@ const AccountInfo = styled(Content)`
   align-items: center;
   gap: 16px;
 `;
+const KeypadContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  height: 50dvh;
+  padding-bottom: 50px;
+  gap: 8px;
+  width: 100dvw;
+  bottom: 0;
+`;
 
 const SendMoney = () => {
   const {
-    state: { urlImage, bankName, accountNumber, holderName },
+    state: { urlImage, bankName, accountNumber, holderName, bankCode },
   } = useLocation();
-  const [ammount, setAmmount] = useState('');
+  const [amount, setAmount] = useState('');
 
   const { data: myInfo } = useMyInfo();
+  const { mutate: transfer } = useTransfer();
 
   const myAccountNumber =
     myInfo?.account?.account_number?.replaceAll('-', '').slice(-4) || '';
@@ -37,14 +49,14 @@ const SendMoney = () => {
   const oneDayAmount = myInfo?.transfer?.one_day_amount || '';
 
   const overOneDayAmount = useMemo(
-    () => Number(myInfo?.transfer?.one_day_amount || 0) < Number(ammount),
-    [myInfo, ammount],
+    () => Number(myInfo?.transfer?.one_day_amount || 0) < Number(amount),
+    [myInfo, amount],
   );
 
   const handleKeyPress = useCallback(
     (value: string) => {
       if (overOneDayAmount) return;
-      setAmmount((prev) => {
+      setAmount((prev) => {
         if (Number(prev) + Number(value) === 0) return '';
         return prev + value;
       });
@@ -55,15 +67,22 @@ const SendMoney = () => {
   const handleAmountChip = useCallback(
     (value: number) => {
       if (overOneDayAmount) return;
-      setAmmount((prev) => String(Number(prev) + value));
+      setAmount((prev) => String(Number(prev) + value));
     },
     [overOneDayAmount],
   );
 
   const handleBackspace = () => {
-    setAmmount((prev) => prev.slice(0, -1));
+    setAmount((prev) => prev.slice(0, -1));
   };
 
+  const handleConfirmButton = useCallback(() => {
+    transfer({
+      bankCode,
+      accountNumber,
+      amount: Number(amount),
+    });
+  }, [bankCode, accountNumber, amount]);
   return (
     <>
       <Header></Header>
@@ -91,10 +110,10 @@ const SendMoney = () => {
               color={overOneDayAmount ? 'error' : 'primary'}
               textAlign="center"
               fontSize={'26px'}
-              opacity={ammount ? 1 : 0.16}
+              opacity={amount ? 1 : 0.16}
             >
-              {ammount
-                ? `${formatNumberWithCommas(ammount)}원`
+              {amount
+                ? `${formatNumberWithCommas(amount)}원`
                 : '얼마를 보낼까요?'}
             </Typography>
           </Tooltip>
@@ -106,13 +125,25 @@ const SendMoney = () => {
           </Typography>
         </Box>
       </AccountInfo>
-      <Keypad
-        onKeyPress={handleKeyPress}
-        onClickChip={handleAmountChip}
-        backspaceProps={{
-          onClick: handleBackspace,
-        }}
-      ></Keypad>
+      <KeypadContainer>
+        <Keypad
+          onKeyPress={handleKeyPress}
+          onClickChip={handleAmountChip}
+          backspaceProps={{
+            onClick: handleBackspace,
+          }}
+        ></Keypad>
+        <Button
+          onClick={handleConfirmButton}
+          height="60px"
+          disabled={overOneDayAmount || !amount}
+          backgroundColor={
+            overOneDayAmount || !amount ? 'kakaoSecondary' : 'kakao'
+          }
+        >
+          확인
+        </Button>
+      </KeypadContainer>
     </>
   );
 };

@@ -4,7 +4,7 @@ export const theme = {
     secondary: '#888',
     placeholder: '#060B118F',
     kakao: '#FFEB00',
-    kakaoSecondary: 'FFF9BF',
+    kakaoSecondary: '#FFF9BF',
     error: '#FF3C3C',
     labelPrimary: '#060B11',
     labelSecondary: '#060B118F',

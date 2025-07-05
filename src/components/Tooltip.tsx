@@ -17,7 +17,7 @@ const Arrow = styled.div<{
   position: absolute;
   width: 0;
   height: 0;
-  ${({ position, backgroundColor, theme }) => {
+  ${({ position, backgroundColor = '#000000D8', theme }) => {
     switch (position) {
       case 'top':
         return `
@@ -26,7 +26,7 @@ const Arrow = styled.div<{
           transform: translateX(-50%);
           border-left: 8px solid transparent;
           border-right: 8px solid transparent;
-          border-top: 8px solid ${backgroundColor ? getThemeValue(theme.color, backgroundColor) : '#000000D8'};
+          border-top: 8px solid ${getThemeValue(theme.color, backgroundColor)};
         `;
       case 'bottom':
         return `
@@ -35,7 +35,7 @@ const Arrow = styled.div<{
           transform: translateX(-50%);
           border-left: 8px solid transparent;
           border-right: 8px solid transparent;
-          border-bottom: 8px solid ${backgroundColor ? getThemeValue(theme.color, backgroundColor) : '#000000D8'};
+          border-bottom: 8px solid ${getThemeValue(theme.color, backgroundColor)};
         `;
       case 'left':
         return `
@@ -44,7 +44,7 @@ const Arrow = styled.div<{
           transform: translateY(-50%);
           border-top: 8px solid transparent;
           border-bottom: 8px solid transparent;
-          border-left: 8px solid ${backgroundColor ? getThemeValue(theme.color, backgroundColor) : '#000000D8'};
+          border-left: 8px solid ${getThemeValue(theme.color, backgroundColor)};
         `;
       case 'right':
         return `
@@ -53,7 +53,7 @@ const Arrow = styled.div<{
           transform: translateY(-50%);
           border-top: 8px solid transparent;
           border-bottom: 8px solid transparent;
-          border-right: 8px solid ${backgroundColor ? getThemeValue(theme.color, backgroundColor) : '#000000D8'};
+          border-right: 8px solid ${getThemeValue(theme.color, backgroundColor)};
         `;
       default:
         return '';
@@ -68,12 +68,9 @@ const TooltipContent = styled.div<{
 }>`
   position: absolute;
   padding: 8px 12px;
-  background-color: ${({ backgroundColor, theme }) =>
-    backgroundColor
-      ? getThemeValue(theme.color, backgroundColor)
-      : '#000000D8'};
-  color: ${({ color, theme }) =>
-    color ? getThemeValue(theme.color, color) : '#FFFFFF'};
+  background-color: ${({ backgroundColor = '#000000D8', theme }) =>
+    getThemeValue(theme.color, backgroundColor)};
+  color: ${({ color = '#FFFFFF', theme }) => getThemeValue(theme.color, color)};
   border-radius: 4px;
   font-size: 14px;
   white-space: nowrap;
