@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 
 import { BackButton } from '@/components/BackButton';
 
-import { Typography } from './Typography';
-
-const HeaderContainer = styled('div')`
+const HeaderContainer = styled('header')`
   position: fixed;
   width: 100vw;
   top: 0;
@@ -12,7 +10,7 @@ const HeaderContainer = styled('div')`
   align-items: center;
   background-color: white;
 `;
-const Title = styled(Typography)`
+const Title = styled('h1')`
   position: absolute;
   width: fit-content;
   left: 50%;

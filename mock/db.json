@@ -117,7 +117,12 @@
       }
     }
   ],
-  "bookmark_accounts": [],
+  "bookmark_accounts": [
+    {
+      "bank_account_number": "110-1234-5678",
+      "id": 1
+    }
+  ],
   "limits": [
     {
       "limit": 5000000,
@@ -146,8 +151,8 @@
     }
   },
   "transfer": {
-    "bank_code": "088",
-    "account_number": "110-1234-5678",
-    "amount": 2
+    "bank_code": "032",
+    "account_number": "143-7890-1234",
+    "amount": 8
   }
 }

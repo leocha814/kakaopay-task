@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import arrow from '@/assets/icons/arrow.svg';
 import { BookmarkIcon, BookmarkIconProps } from '@/components/BookmarkIcon';
@@ -20,12 +21,31 @@ const Image = styled('img')`
     expanded && 'rotate(180deg)'};
 `;
 
-const ListContainer = styled(Box)`
-  flex-direction: column;
-  padding: 0 24px;
+const Title = styled('h2')`
+  font-size: ${({ theme }) => theme.fontSize.normal};
+  font-weight: regualar;
+  white-space: nowarp;
+  width: 100%;
+  text-align: left;
 `;
 
-const AccountContainer = styled(Box)`
+const ListContainer = styled('section')`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 24px;
+  gap: 16px;
+`;
+
+const AccountContainer = styled('li')`
+  display: flex;
+`;
+
+const ListLink = styled(Link)`
+  text-decoration: none;
+  display: flex;
+  width: 100%;
+  display: flex;
   padding: 12px 0;
   gap: 12px;
 `;
@@ -37,7 +57,7 @@ interface AccountProps {
   accountNumber: string;
   id: number;
   bookmarkInfo: BookmarkIconProps;
-  handleAccountClick?: VoidFunction;
+  bankCode: string;
 }
 
 const Account = ({
@@ -46,17 +66,30 @@ const Account = ({
   bankName,
   accountNumber,
   bookmarkInfo,
-  handleAccountClick,
+  bankCode,
 }: AccountProps) => {
   return (
-    <AccountContainer onClick={handleAccountClick}>
-      <BankLogo src={imageUrl || ''}></BankLogo>
-      <Box flexDirection="column">
-        <Typography>{holderName ? holderName : '별명 미 설정'}</Typography>
-        <Typography>
-          {bankName} {accountNumber}
-        </Typography>
-      </Box>
+    <AccountContainer>
+      <ListLink
+        state={{
+          imageUrl,
+          holderName,
+          accountNumber,
+          bankName,
+          bankCode,
+        }}
+        to={'/transfer'}
+      >
+        <BankLogo src={imageUrl || ''}></BankLogo>
+        <Box flexDirection="column">
+          <Typography fontSize="16px">
+            {holderName ? holderName : '별명 미 설정'}
+          </Typography>
+          <Typography fontSize="13px" color="labelSecondary">
+            {bankName} {accountNumber}
+          </Typography>
+        </Box>
+      </ListLink>
       <BookmarkIcon {...bookmarkInfo}></BookmarkIcon>
     </AccountContainer>
   );
@@ -81,21 +114,24 @@ export const AccountList = ({
   return (
     <ListContainer>
       <Box>
-        <Typography>{title}</Typography>
+        <Title>{title}</Title>
         {useExpand && (
           <Box justifyContent="end">
             {isExpanded ? `${totalCount}개` : `+${hiddenCount}개`}
             <Image
               expanded={!isExpanded}
+              alt={isExpanded ? '숨기기' : '보이기'}
               onClick={() => setIsExpanded((prev) => !prev)}
               src={arrow}
             ></Image>
           </Box>
         )}
       </Box>
-      {visibleAccounts?.map((account) => (
-        <Account key={account.id} {...account}></Account>
-      ))}
+      <ul>
+        {visibleAccounts?.map((account) => (
+          <Account key={account.id} {...account}></Account>
+        ))}
+      </ul>
     </ListContainer>
   );
 };

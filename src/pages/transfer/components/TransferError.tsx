@@ -52,15 +52,17 @@ export const TransferError = ({
   return (
     <>
       <Content>
-        <Image src={Fail}></Image>
-        <Box gap="8px" flexDirection="column">
-          <Typography textAlign="center" fontSize="24px">
-            {errorTitle}
-          </Typography>
-          <Typography textAlign="center" fontSize="16px" color="error">
-            {errorContent}
-          </Typography>
-        </Box>
+        <section>
+          <Image alt="송금 에러" src={Fail}></Image>
+          <Box gap="8px" flexDirection="column">
+            <Typography textAlign="center" fontSize="24px">
+              {errorTitle}
+            </Typography>
+            <Typography textAlign="center" fontSize="16px" color="error">
+              {errorContent}
+            </Typography>
+          </Box>
+        </section>
       </Content>
       <BottomContainer>
         <Button

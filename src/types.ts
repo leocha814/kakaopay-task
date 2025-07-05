@@ -80,7 +80,7 @@ interface CurrentState {
   accountNumber: string;
   bankName: string;
   holderName: string;
-  urlImage: string;
+  imageUrl: string;
   bankCode: string;
 }
 

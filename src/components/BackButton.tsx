@@ -7,5 +7,5 @@ export const Image = styled('img')``;
 export const BackButton = ({
   ...props
 }: React.HTMLAttributes<HTMLImageElement>) => {
-  return <Image src={BackArrowSvg} {...props} />;
+  return <Image alt="뒤로가기" src={BackArrowSvg} {...props} />;
 };

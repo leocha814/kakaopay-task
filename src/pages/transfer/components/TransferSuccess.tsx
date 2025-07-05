@@ -56,22 +56,24 @@ export const TransferSuccess = ({
   return (
     <>
       <Content>
-        <Image src={Done}></Image>
-        <Box gap="8px" flexDirection="column">
-          <Typography fontSize="24px" textAlign="center">
-            송금을 완료했어요.
-          </Typography>
-          <Typography
-            fontSize="16px"
-            textAlign="center"
-            color="primary"
-            opacity={0.56}
-          >
-            {bankName} {accountNumber}
-            <br />
-            {holderName}님에게 {formatNumberWithCommas(amount)}원을 보냈어요.
-          </Typography>
-        </Box>
+        <section>
+          <Image alt="송금 완료" src={Done}></Image>
+          <Box gap="8px" flexDirection="column">
+            <Typography fontSize="24px" textAlign="center">
+              송금을 완료했어요.
+            </Typography>
+            <Typography
+              fontSize="16px"
+              textAlign="center"
+              color="primary"
+              opacity={0.56}
+            >
+              {bankName} {accountNumber}
+              <br />
+              {holderName}님에게 {formatNumberWithCommas(amount)}원을 보냈어요.
+            </Typography>
+          </Box>
+        </section>
       </Content>
       <BottomContainer>
         <OutAccountBox>

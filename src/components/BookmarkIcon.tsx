@@ -24,6 +24,7 @@ export const BookmarkIcon = ({
 }: BookmarkIconProps) => {
   return (
     <img
+      alt={'즐겨찾기'}
       src={isBookmarked ? yellowStar : star}
       onClick={(e) => {
         e.stopPropagation();

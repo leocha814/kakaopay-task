@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Box } from '@/components/Box';
 import { Button } from '@/components/Button';
 import { Content } from '@/components/Content';
 import { Header } from '@/components/Header';
@@ -24,12 +23,20 @@ const Image = styled('img')`
   height: 40px;
   pointer-events: none;
 `;
-
 const AccountInfo = styled(Content)`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  position: fixed;
+  width: 100%;
+`;
+
+const Section = styled('section')`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
 `;
 
 const KeypadContainer = styled('div')`
@@ -44,10 +51,10 @@ const KeypadContainer = styled('div')`
 
 const Transfer = () => {
   const {
-    state: { urlImage, bankName, accountNumber, holderName, bankCode },
+    state: { imageUrl, bankName, accountNumber, holderName, bankCode },
   } = useLocation();
   const [amount, setAmount] = useState('');
-  const [errorMessage, setErrorMesssage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const { data: myInfo } = useMyInfo();
@@ -56,12 +63,13 @@ const Transfer = () => {
     isPending,
     isSuccess,
     isError,
+    reset,
   } = useTransfer({
     onSuccess: (res) => {
       setAmount(String(res.amount));
     },
     onError: (res) => {
-      setErrorMesssage(res?.response?.data.error_code || 'UNKNOWN');
+      setErrorMessage(res?.response?.data.error_code || 'UNKNOWN');
     },
   });
 
@@ -134,16 +142,14 @@ const Transfer = () => {
   };
 
   const handleErrorConfirmButton = () => {
-    navigate('/accounts', {
-      state: {},
-    });
+    reset();
   };
 
   if (isPending)
     return (
       <TransferPending
         amount={amount}
-        {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
+        {...{ imageUrl, bankName, accountNumber, holderName, bankCode }}
       ></TransferPending>
     );
   if (isSuccess)
@@ -152,7 +158,7 @@ const Transfer = () => {
         onClickConfirmButton={handleSuccessConfirmButton}
         amount={amount}
         myAccountInfo={myInfo?.account}
-        {...{ urlImage, bankName, accountNumber, holderName, bankCode }}
+        {...{ imageUrl, bankName, accountNumber, holderName, bankCode }}
       ></TransferSuccess>
     );
   if (isError)
@@ -167,8 +173,8 @@ const Transfer = () => {
     <>
       <Header></Header>
       <AccountInfo>
-        <Box flexDirection="column" gap={'8px'}>
-          <Image src={urlImage}></Image>
+        <Section>
+          <Image src={imageUrl} alt={`${bankName} 로고`}></Image>
           <Typography
             textAlign="center"
             fontWeight={'normal'}
@@ -176,10 +182,10 @@ const Transfer = () => {
           >
             {bankName} {accountNumber}
           </Typography>
-        </Box>
-        <Box flexDirection="column" gap={'8px'}>
+        </Section>
+        <Section>
           <Typography textAlign="center" fontSize={'26px'}>
-            {holderName} 님에게
+            {holderName ? `${holderName} 님에게` : '나에게'}
           </Typography>
           <Tooltip
             show={overOneDayLimit || overOneTimeLimit}
@@ -203,7 +209,7 @@ const Transfer = () => {
             {formatNumberWithCommas(String(myInfo?.account?.balance))}
             원)
           </Typography>
-        </Box>
+        </Section>
       </AccountInfo>
       <KeypadContainer>
         <Keypad

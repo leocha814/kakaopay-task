@@ -5,7 +5,7 @@ export interface ContentProps {
   marginTop?: Property.MarginTop;
 }
 
-export const Content = styled('div')<ContentProps>`
+export const Content = styled('main')<ContentProps>`
   margin-top: ${({ marginTop = '16%' }) => marginTop};
   text-align: center;
   display: flex;

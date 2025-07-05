@@ -1,9 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
 
 import { AccountList } from '@/components/AccountList';
 import { BookmarkIconProps } from '@/components/BookmarkIcon';
-import { Box } from '@/components/Box';
-import { Content } from '@/components/Content';
 import { Header } from '@/components/Header';
 import {
   useAddBookmarkAccount,
@@ -12,10 +10,16 @@ import {
   useMyAccount,
   useRecentTransferAccounts,
 } from '@/services/hooks';
-import { CurrentState } from '@/types';
+
+const Main = styled('main')`
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  gap: 8px;
+  width: 100%;
+`;
 
 const Accounts = () => {
-  const navigate = useNavigate();
   const { data: bookmarkAccounts, refetch: refetchBookmarker } =
     useBookmarkAccounts();
   const { data: myAccount } = useMyAccount();
@@ -34,12 +38,6 @@ const Accounts = () => {
 
   const bankList = myAccount?.map((account) => account.bank);
 
-  const handleAccountClick = (params: CurrentState) => {
-    navigate('/transfer', {
-      state: params,
-    });
-  };
-
   const handleToggle = ({
     isBookmarked,
     id,
@@ -53,13 +51,13 @@ const Accounts = () => {
   };
 
   return (
-    <Content marginTop={'44px'}>
+    <>
       <Header title="받을 계좌 선택" useHistoryBack={false}></Header>
-      <Box flexDirection="column" gap={'16px'}>
+      <Main>
         <AccountList
           title="내 계좌"
           accountList={
-            myAccount?.map(({ bank, account_number, holder_name, id }) => {
+            myAccount?.map(({ bank, account_number, id }) => {
               const bookmark = bookmarkAccounts?.find(
                 ({ bank_account_number }) =>
                   bank_account_number === account_number,
@@ -70,6 +68,7 @@ const Accounts = () => {
                 bankName: bank.name,
                 accountNumber: account_number,
                 id,
+                bankCode: bank.code,
                 bookmarkInfo: {
                   onToggle: handleToggle,
                   isBookmarked: !!bookmark,
@@ -77,14 +76,6 @@ const Accounts = () => {
                   accountNumber:
                     bookmark?.bank_account_number ?? account_number,
                 },
-                handleAccountClick: () =>
-                  handleAccountClick({
-                    urlImage: bank.image_url,
-                    bankName: bank.name,
-                    accountNumber: account_number,
-                    holderName: holder_name,
-                    bankCode: bank.code,
-                  }),
               };
             }) || []
           }
@@ -102,6 +93,7 @@ const Accounts = () => {
                 const bankInfo = bankList?.find((b) => b.code === bank.code);
                 return {
                   imageUrl: bank.image_url,
+                  bankCode: bankInfo?.code || '',
                   holderName: holder_name,
                   accountNumber: account_number,
                   id,
@@ -113,21 +105,13 @@ const Accounts = () => {
                       bookmark?.bank_account_number ?? account_number,
                   },
                   bankName: bankInfo?.name || '',
-                  handleAccountClick: () =>
-                    handleAccountClick({
-                      urlImage: bankInfo?.image_url || '',
-                      holderName: holder_name,
-                      accountNumber: account_number,
-                      bankName: bankInfo?.name || '',
-                      bankCode: bankInfo?.code || '',
-                    }),
                 };
               },
             ) || []
           }
         />
-      </Box>
-    </Content>
+      </Main>
+    </>
   );
 };
 
