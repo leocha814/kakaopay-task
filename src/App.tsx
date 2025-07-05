@@ -9,7 +9,7 @@ const RoutePage = ({ routeObjects }: { routeObjects: RouteObject[] }) => {
   return useRoutes(routeObjects);
 };
 
-const App: React.FC = () => {
+const App = () => {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
