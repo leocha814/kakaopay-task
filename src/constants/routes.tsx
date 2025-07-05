@@ -1,16 +1,16 @@
 import { lazy } from 'react';
 import { Navigate, RouteObject } from 'react-router-dom';
 
-const SelectReceiveAccount = lazy(() => import('@/pages/SelectReceiveAccount'));
+const MyAccount = lazy(() => import('@/pages/MyAccount'));
 
 export const routeObjects: RouteObject[] = [
   {
     path: '/my-account',
-    element: <SelectReceiveAccount />,
+    element: <MyAccount />,
   },
   {
-    path: 'not-found',
-    element: <div>not fount</div>,
+    path: '/not-found',
+    element: <div>not-found</div>,
   },
   {
     path: '*',
