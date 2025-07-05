@@ -69,7 +69,7 @@ const Account = ({
   bankCode,
 }: AccountProps) => {
   return (
-    <AccountContainer>
+    <AccountContainer role="list">
       <ListLink
         state={{
           imageUrl,
@@ -83,7 +83,7 @@ const Account = ({
         <BankLogo src={imageUrl || ''}></BankLogo>
         <Box flexDirection="column">
           <Typography fontSize="16px">
-            {holderName ? holderName : '별명 미 설정'}
+            {holderName ? holderName : '별명 미설정'}
           </Typography>
           <Typography fontSize="13px" color="labelSecondary">
             {bankName} {accountNumber}

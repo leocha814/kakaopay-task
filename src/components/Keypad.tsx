@@ -51,13 +51,15 @@ export const Keypad = ({
       </Box>
       <KeyButtonContainer>
         {keys.map((key) => (
-          <KeyButton key={key} onClick={() => onKeyPress(key)}>
+          <KeyButton name={key} key={key} onClick={() => onKeyPress(key)}>
             {key}
           </KeyButton>
         ))}
         <div></div>
         <KeyButton onClick={() => onKeyPress('0')}>0</KeyButton>
-        <KeyButton {...backspaceProps}>←</KeyButton>
+        <KeyButton aria-label="지우기" {...backspaceProps}>
+          ←
+        </KeyButton>
       </KeyButtonContainer>
     </>
   );
