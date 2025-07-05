@@ -12,6 +12,7 @@ import {
   useMyAccount,
   useRecentTransferAccounts,
 } from '@/services/hooks';
+import { CurrentState } from '@/types';
 
 const ReceiveAccountSelect = () => {
   const navigate = useNavigate();
@@ -33,13 +34,7 @@ const ReceiveAccountSelect = () => {
 
   const bankList = myAccount?.map((account) => account.bank);
 
-  const handleAccountClick = (params: {
-    accountNumber: string;
-    bankName: string;
-    holderName: string;
-    urlImage: string;
-    bankCode: string;
-  }) => {
+  const handleAccountClick = (params: CurrentState) => {
     navigate('/send-money', {
       state: params,
     });

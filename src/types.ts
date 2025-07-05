@@ -76,11 +76,20 @@ interface PostErrorResult {
   error_code: string;
 }
 
+interface CurrentState {
+  accountNumber: string;
+  bankName: string;
+  holderName: string;
+  urlImage: string;
+  bankCode: string;
+}
+
 export type {
   Account,
   Bank,
   BookmarkAccount,
   BookmarkAccountBody,
+  CurrentState,
   GetErrorResult,
   Limit,
   MyInfo,
